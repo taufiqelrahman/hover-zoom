@@ -41,6 +41,8 @@
       magnifierHeight: 60, // magnifier box's height
       magnifierWidth: 60, // magnifier box's width
       largeImage: '', // image source if large image url is passed
+      blur: false, // blur option for original image
+      grayscale: false, // grayscale option for original image
 		};
 
 		// Create options by merging defaults with the passed in arguments
@@ -138,8 +140,11 @@
 	function addMouseListener() {
     // apply listener when the mouse is hovering the image
 		_.currentImageEl.addEventListener('mousemove', event => {
-      // sets opacity and filter
-      _.currentImageEl.style.setProperty('filter', 'opacity(0.8)');
+      // sets filter and opacity
+      let filter = 'opacity(0.8)';
+      if (_.options.blur) filter += ' blur(2px)'; // adds blur filter
+      if (_.options.grayscale) filter += ' grayscale(100%)'; // adds grayscale filter
+      _.currentImageEl.style.setProperty('filter', filter);
       _.magnifierElement.style.setProperty('opacity', 1);
 			if (_.options.type === 'outside') _.zoomedElement.style.setProperty('opacity', 1);
 
@@ -169,7 +174,7 @@
 
     // apply listener when the mouse is NOT hovering the image
 		_.currentImageEl.addEventListener('mouseout', () => {
-      // sets opacity and filter
+      // sets filter and opacity
       _.currentImageEl.style.setProperty('filter', 'unset');
 			_.magnifierElement.style.setProperty('opacity', 0);
 			if (_.options.type === 'outside') _.zoomedElement.style.setProperty('opacity', 0);
