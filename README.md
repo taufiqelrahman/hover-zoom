@@ -10,7 +10,7 @@ HoverZoom is a plugin built on javascript which allows users to zoom in images a
 * Easy installation.
 * Can be used anywhere.
 * Zoomed in image can be inside or outside the lens.
-* Filter option for original image.
+* Filter options for original image.
 
 ## Browser Compatibility
 
