@@ -1,6 +1,7 @@
 .hoverzoom {
   display: flex;
   width: fit-content;
+  position: relative;
 
   &-inside {
     top: 0px;
@@ -20,11 +21,15 @@
 
   &-zoom {
     opacity: 0;
-    background-size: 400%;
+    // background-size: 400%;
     background-repeat: no-repeat;
     // margin-left: 6px;
     -webkit-transition: opacity 0.5s; /* Safari prior 6.1 */
     transition: opacity 0.5s;
+  }
+
+  &-image {
+    cursor: none;
   }
 
   &-magnifier {
@@ -55,7 +60,7 @@
       max-width: none!important;
       max-height: none!important;
       background-repeat: no-repeat;
-      background-size: 400%;
+      // background-size: 400%;
     }
   }
 }
