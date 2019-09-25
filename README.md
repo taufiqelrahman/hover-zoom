@@ -1,12 +1,10 @@
 # Magnifier.js
-=================
 
 HoverZoom is a plugin built on javascript which allows users to zoom in images as they hover. This plugin doesn't depend on any other libraries and this doesn't use JQuery. This would cut a significant download time as this is built 100% using plain vanilla javascript.
 
 <a href="https://demo-hoverzoom.taufiqelrahman.com/" target="_blank"><strong>Demo and documentation</strong></a>
 
 ## Features
---------------------
 
 * *Lightweight, no additional javascript dependency.
 * Easy installation.
@@ -15,7 +13,6 @@ HoverZoom is a plugin built on javascript which allows users to zoom in images a
 * Filter option for original image.
 
 ## Browser Compatibility
---------------------
 
 Currently tested in:
 
@@ -25,7 +22,6 @@ Currently tested in:
 * Opera Version 63.0.3368.94
 
 ## Getting Started
---------------------
 
 Include stylesheet in head tag:
 ```
@@ -59,7 +55,6 @@ Add 1 line of javascript to initialize:
 ```
 
 ## Options
---------------------
 
 ```
 <script>
