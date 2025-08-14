@@ -7,7 +7,7 @@
   "scripts": {
     "scss": "node-sass style.scss style.css",
     "lint": "node_modules/.bin/eslint --fix .",
-    "build": "yarn lint && yarn scss && cp index.js dist/index.js && cp style.css dist/style.css",
+    "build": "yarn lint && yarn scss && tsc index.ts --outDir dist && cp style.css dist/style.css",
     "demo": "cp index.js demo/index.js && cp style.css demo/style.css"
   },
   "devDependencies": {
@@ -19,6 +19,6 @@
     "eslint-plugin-standard": "^4.0.1"
   },
   "dependencies": {
-    "node-sass": "^4.12.0"
+    "node-sass": "^9.0.0"
   }
 }

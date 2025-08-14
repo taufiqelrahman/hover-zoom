@@ -1,267 +1,252 @@
-///////////////////////////////////
-//
-//  Name: HoverZoom
-//  Version: 1.0.0
-//  Author: Taufiq El Rahman
-//
-///////////////////////////////////
-
-interface HoverZoomOptions {
-  classNames: {
+// HoverZoomOptions defines the configuration for the HoverZoom plugin
+export interface HoverZoomOptions {
+  classNames?: Partial<{
     container: string;
     image: string;
     zoomedImage: string;
     magnifier: string;
     magnifierRound: string;
     magnifierImage: string;
+  }>;
+  position?: "left" | "bottom";
+  type?: "outside" | "inside";
+  largeImage?: string;
+  blur?: boolean;
+  grayscale?: boolean;
+}
+
+// Main HoverZoom class encapsulates all logic and state
+export class HoverZoom {
+  private options: Required<HoverZoomOptions>;
+  private iteration = 0;
+  private currentContainer: HTMLElement | null = null;
+  private zoomedElement: HTMLElement | null = null;
+  private currentImageEl: HTMLImageElement | null = null;
+  private magnifierElement: HTMLElement | null = null;
+  private magnifierImageElement: HTMLElement | HTMLImageElement | null = null;
+
+  // Default options for the plugin
+  static defaultOptions: Required<HoverZoomOptions> = {
+    classNames: {
+      container: "hoverzoom",
+      image: "hoverzoom-image",
+      zoomedImage: "hoverzoom-zoom",
+      magnifier: "hoverzoom-magnifier",
+      magnifierRound: "hoverzoom-magnifier--round",
+      magnifierImage: "hoverzoom-magnifier--image",
+    },
+    position: "left",
+    type: "outside",
+    largeImage: "",
+    blur: false,
+    grayscale: false,
   };
-  position: "left" | "bottom";
-  type: "outside" | "inside";
-  largeImage: string;
-  blur: boolean;
-  grayscale: boolean;
-}
 
-interface HoverZoomInternal {
-  options: HoverZoomOptions;
-  iteration: number;
-  currentContainer: HTMLElement | null;
-  zoomedElement: HTMLElement | null;
-  currentImageEl: HTMLImageElement | null;
-  magnifierElement: HTMLElement | null;
-  magnifierImageElement: HTMLElement | HTMLImageElement | null;
-  isSafari: boolean;
-  init?: (options?: Partial<HoverZoomOptions>) => void;
-}
-
-(function () {
-  const HoverZoom: Partial<HoverZoomInternal> = {};
-
-  HoverZoom.isSafari =
-    /constructor/i.test(window.HTMLElement as any) ||
-    (function (p: any) {
-      return p && p.toString() === "[object SafariRemoteNotification]";
-    })(
-      !(window as any).safari ||
-        (typeof (window as any).safari !== "undefined" &&
-          (window as any).safari.pushNotification)
+  // Utility: Detect if browser is Safari
+  static isSafari(): boolean {
+    return (
+      /constructor/i.test(window.HTMLElement as any) ||
+      (function (p: any) {
+        return p && p.toString() === "[object SafariRemoteNotification]";
+      })(
+        !(window as any).safari ||
+          (typeof (window as any).safari !== "undefined" &&
+            (window as any).safari.pushNotification)
+      )
     );
+  }
 
-  HoverZoom.init = function (options?: Partial<HoverZoomOptions>) {
-    const defaults: HoverZoomOptions = {
-      classNames: {
-        container: "hoverzoom",
-        image: "hoverzoom-image",
-        zoomedImage: "hoverzoom-zoom",
-        magnifier: "hoverzoom-magnifier",
-        magnifierRound: "hoverzoom-magnifier--round",
-        magnifierImage: "hoverzoom-magnifier--image",
-      },
-      position: "left",
-      type: "outside",
-      largeImage: "",
-      blur: false,
-      grayscale: false,
-    };
-    HoverZoom.options = {
-      ...defaults,
+  constructor(options?: HoverZoomOptions) {
+    // Merge user options with defaults
+    this.options = {
+      ...HoverZoom.defaultOptions,
       ...options,
-      classNames: { ...defaults.classNames, ...(options?.classNames || {}) },
+      classNames: {
+        ...HoverZoom.defaultOptions.classNames,
+        ...(options?.classNames || {}),
+      },
     };
+  }
+
+  // Initialize the plugin and attach to all containers
+  public init(): void {
     const imgContainers = document.getElementsByClassName(
-      HoverZoom.options.classNames.container
+      this.options.classNames.container!
     );
     window.onload = () => {
       for (let i = 0; i < imgContainers.length; i++) {
-        HoverZoom.iteration = i;
-        HoverZoom.currentContainer = imgContainers[i] as HTMLElement;
-        applyHoverZoom();
+        this.iteration = i;
+        this.currentContainer = imgContainers[i] as HTMLElement;
+        this.applyHoverZoom();
       }
     };
-  };
+  }
 
-  function applyHoverZoom() {
-    if (!HoverZoom.options || !HoverZoom.currentContainer) return;
-    const { image } = HoverZoom.options.classNames;
-    HoverZoom.currentImageEl = HoverZoom.currentContainer.querySelector(
+  // Set up zoom/magnifier for a single container
+  private applyHoverZoom(): void {
+    const { image } = this.options.classNames;
+    if (!this.currentContainer) return;
+    this.currentImageEl = this.currentContainer.querySelector(
       `.${image}`
     ) as HTMLImageElement;
-    if (!HoverZoom.currentImageEl) return;
-    HoverZoom.currentImageEl.id = `${image}-${HoverZoom.iteration}`;
-    HoverZoom.options.largeImage =
-      HoverZoom.currentImageEl.dataset.largeImage ||
-      HoverZoom.currentImageEl.src;
+    if (!this.currentImageEl) return;
+    this.currentImageEl.id = `${image}-${this.iteration}`;
+    this.options.largeImage =
+      this.currentImageEl.dataset.largeImage || this.currentImageEl.src;
     const type =
-      (HoverZoom.currentImageEl.dataset.type as "outside" | "inside") ||
-      HoverZoom.options.type;
+      (this.currentImageEl.dataset.type as "outside" | "inside") ||
+      this.options.type;
     if (type === "outside") {
-      outsideZoom();
+      this.outsideZoom();
     } else {
-      insideZoom();
+      this.insideZoom();
     }
-    addMouseListener();
+    this.addMouseListener();
   }
 
-  function outsideZoom() {
-    if (
-      !HoverZoom.options ||
-      !HoverZoom.currentImageEl ||
-      !HoverZoom.currentContainer
-    )
-      return;
-    const { zoomedImage, magnifier, magnifierImage } =
-      HoverZoom.options.classNames;
-    HoverZoom.zoomedElement = document.createElement("div");
-    HoverZoom.zoomedElement.classList.add(zoomedImage);
-    HoverZoom.zoomedElement.id = `${zoomedImage}-${HoverZoom.iteration}`;
-    HoverZoom.zoomedElement.style.backgroundImage = `url('${HoverZoom.options.largeImage}')`;
-    HoverZoom.zoomedElement.style.backgroundSize = `${
-      HoverZoom.currentImageEl.offsetWidth * 4
-    }px ${HoverZoom.currentImageEl.offsetHeight * 4}px`;
+  // Create and attach the zoomed image and magnifier for 'outside' type
+  private outsideZoom(): void {
+    const { zoomedImage, magnifier, magnifierImage } = this.options.classNames;
+    if (!this.currentImageEl || !this.currentContainer) return;
+    this.zoomedElement = document.createElement("div");
+    this.zoomedElement.classList.add(zoomedImage!);
+    this.zoomedElement.id = `${zoomedImage}-${this.iteration}`;
+    this.zoomedElement.style.backgroundImage = `url('${this.options.largeImage}')`;
+    this.zoomedElement.style.backgroundSize = `${
+      this.currentImageEl.offsetWidth * 4
+    }px ${this.currentImageEl.offsetHeight * 4}px`;
     const position =
-      HoverZoom.currentImageEl.dataset.position || HoverZoom.options.position;
-    HoverZoom.currentContainer.style.flexDirection =
+      this.currentImageEl.dataset.position || this.options.position;
+    this.currentContainer.style.flexDirection =
       position === "left" ? "row" : "column";
-    attachZoomedImage();
-    HoverZoom.magnifierElement = document.createElement("div");
-    HoverZoom.magnifierElement.classList.add(magnifier);
-    HoverZoom.magnifierElement.id = `${magnifier}-${HoverZoom.iteration}`;
+    this.attachZoomedImage();
+    this.magnifierElement = document.createElement("div");
+    this.magnifierElement.classList.add(magnifier!);
+    this.magnifierElement.id = `${magnifier}-${this.iteration}`;
     const imgElem = document.createElement("img");
-    imgElem.classList.add(magnifierImage);
-    imgElem.id = `${magnifierImage}-${HoverZoom.iteration}`;
-    imgElem.src = HoverZoom.options.largeImage;
-    imgElem.style.height = `${HoverZoom.currentImageEl.offsetHeight}px`;
-    imgElem.style.width = `${HoverZoom.currentImageEl.offsetWidth}px`;
-    HoverZoom.magnifierImageElement = imgElem;
-    HoverZoom.magnifierElement.appendChild(imgElem);
-    HoverZoom.currentContainer.appendChild(HoverZoom.magnifierElement);
+    imgElem.classList.add(magnifierImage!);
+    imgElem.id = `${magnifierImage}-${this.iteration}`;
+    imgElem.src = this.options.largeImage;
+    imgElem.style.height = `${this.currentImageEl.offsetHeight}px`;
+    imgElem.style.width = `${this.currentImageEl.offsetWidth}px`;
+    this.magnifierImageElement = imgElem;
+    this.magnifierElement.appendChild(imgElem);
+    this.currentContainer.appendChild(this.magnifierElement);
     const magnifierWidth =
-      (HoverZoom.magnifierElement.offsetHeight *
-        HoverZoom.currentImageEl.offsetWidth) /
-      HoverZoom.currentImageEl.offsetHeight;
-    HoverZoom.magnifierElement.style.width = `${magnifierWidth}px`;
+      (this.magnifierElement.offsetHeight * this.currentImageEl.offsetWidth) /
+      this.currentImageEl.offsetHeight;
+    this.magnifierElement.style.width = `${magnifierWidth}px`;
   }
 
-  function attachZoomedImage() {
-    if (
-      !HoverZoom.zoomedElement ||
-      !HoverZoom.currentImageEl ||
-      !HoverZoom.currentContainer
-    )
+  // Attach the zoomed image to the container
+  private attachZoomedImage(): void {
+    if (!this.zoomedElement || !this.currentImageEl || !this.currentContainer)
       return;
-    HoverZoom.zoomedElement.style.height = `${HoverZoom.currentImageEl.offsetHeight}px`;
-    HoverZoom.zoomedElement.style.width = `${HoverZoom.currentImageEl.offsetWidth}px`;
+    this.zoomedElement.style.height = `${this.currentImageEl.offsetHeight}px`;
+    this.zoomedElement.style.width = `${this.currentImageEl.offsetWidth}px`;
     const position =
-      HoverZoom.currentImageEl.dataset.position || HoverZoom.options?.position;
+      this.currentImageEl.dataset.position || this.options.position;
     if (position === "left") {
-      HoverZoom.zoomedElement.style.marginLeft = "6px";
+      this.zoomedElement.style.marginLeft = "6px";
     } else {
-      HoverZoom.zoomedElement.style.marginTop = "6px";
+      this.zoomedElement.style.marginTop = "6px";
     }
-    HoverZoom.currentContainer.appendChild(HoverZoom.zoomedElement);
+    this.currentContainer.appendChild(this.zoomedElement);
   }
 
-  function insideZoom() {
-    if (
-      !HoverZoom.options ||
-      !HoverZoom.currentImageEl ||
-      !HoverZoom.currentContainer
-    )
-      return;
+  // Create and attach the magnifier for 'inside' type
+  private insideZoom(): void {
     const { magnifier, magnifierImage, magnifierRound } =
-      HoverZoom.options.classNames;
-    HoverZoom.magnifierElement = document.createElement("div");
-    HoverZoom.magnifierElement.classList.add(magnifier, magnifierRound);
-    HoverZoom.magnifierElement.id = `${magnifier}-${HoverZoom.iteration}`;
-    HoverZoom.magnifierImageElement = document.createElement("div");
-    HoverZoom.magnifierImageElement.classList.add(magnifierImage);
-    HoverZoom.magnifierImageElement.id = `${magnifierImage}-${HoverZoom.iteration}`;
-    HoverZoom.magnifierImageElement.style.backgroundImage = `url('${HoverZoom.options.largeImage}')`;
-    HoverZoom.magnifierImageElement.style.backgroundSize = `${
-      HoverZoom.currentImageEl.offsetWidth * 4
-    }px ${HoverZoom.currentImageEl.offsetHeight * 4}px`;
-    HoverZoom.magnifierImageElement.style.height = `${HoverZoom.currentImageEl.offsetHeight}px`;
-    HoverZoom.magnifierImageElement.style.width = `${HoverZoom.currentImageEl.offsetWidth}px`;
-    HoverZoom.magnifierElement.appendChild(HoverZoom.magnifierImageElement);
-    HoverZoom.currentContainer.appendChild(HoverZoom.magnifierElement);
+      this.options.classNames;
+    if (!this.currentImageEl || !this.currentContainer) return;
+    this.magnifierElement = document.createElement("div");
+    this.magnifierElement.classList.add(magnifier!, magnifierRound!);
+    this.magnifierElement.id = `${magnifier}-${this.iteration}`;
+    this.magnifierImageElement = document.createElement("div");
+    this.magnifierImageElement.classList.add(magnifierImage!);
+    this.magnifierImageElement.id = `${magnifierImage}-${this.iteration}`;
+    this.magnifierImageElement.style.backgroundImage = `url('${this.options.largeImage}')`;
+    this.magnifierImageElement.style.backgroundSize = `${
+      this.currentImageEl.offsetWidth * 4
+    }px ${this.currentImageEl.offsetHeight * 4}px`;
+    this.magnifierImageElement.style.height = `${this.currentImageEl.offsetHeight}px`;
+    this.magnifierImageElement.style.width = `${this.currentImageEl.offsetWidth}px`;
+    this.magnifierElement.appendChild(this.magnifierImageElement);
+    this.currentContainer.appendChild(this.magnifierElement);
   }
 
-  function addMouseListener() {
-    if (!HoverZoom.options || !HoverZoom.currentImageEl) return;
+  // Add mouse event listeners for zoom/magnifier effect
+  private addMouseListener(): void {
+    if (!this.currentImageEl) return;
     const { image, magnifier, magnifierImage, zoomedImage } =
-      HoverZoom.options.classNames;
+      this.options.classNames;
     const magnifierImageElement = document.getElementById(
-      `${magnifierImage}-${HoverZoom.iteration}`
+      `${magnifierImage}-${this.iteration}`
     ) as HTMLElement;
     const magnifierElement = document.getElementById(
-      `${magnifier}-${HoverZoom.iteration}`
+      `${magnifier}-${this.iteration}`
     ) as HTMLElement;
     if (!magnifierElement || !magnifierImageElement) return;
     const { offsetHeight, offsetWidth } = magnifierElement;
     const zoomedElement = document.getElementById(
-      `${zoomedImage}-${HoverZoom.iteration}`
+      `${zoomedImage}-${this.iteration}`
     ) as HTMLElement;
     const currentImageEl = document.getElementById(
-      `${image}-${HoverZoom.iteration}`
+      `${image}-${this.iteration}`
     ) as HTMLImageElement;
     const type =
       (currentImageEl.dataset.type as "outside" | "inside") ||
-      HoverZoom.options.type;
-    HoverZoom.currentImageEl.addEventListener(
-      "mousemove",
-      (event: MouseEvent) => {
-        let filter = "opacity(0.8)";
-        if (currentImageEl.dataset.blur || HoverZoom.options?.blur)
-          filter += " blur(2px)";
-        if (currentImageEl.dataset.grayscale || HoverZoom.options?.grayscale)
-          filter += " grayscale(100%)";
-        currentImageEl.style.filter = filter;
-        magnifierElement.style.opacity = "1";
-        if (type === "outside" && zoomedElement)
-          zoomedElement.style.opacity = "1";
-        const posX = event.offsetX
-          ? event.offsetX
-          : event.pageX - currentImageEl.offsetLeft;
-        const posY = event.offsetY
-          ? event.offsetY
-          : event.pageY - currentImageEl.offsetTop;
-        let magnifierTransformX: number, magnifierTransformY: number;
-        const bgPosXMultiplier = 3;
-        const bgPosYMultiplier = 3;
-        if (type === "outside" && zoomedElement) {
-          zoomedElement.style.backgroundPositionX = `${
-            -posX * bgPosXMultiplier
-          }px`;
-          zoomedElement.style.backgroundPositionY = `${
-            -posY * bgPosYMultiplier
-          }px`;
-          magnifierTransformX = offsetWidth * 0.5;
-          magnifierTransformY = offsetHeight * -0.52;
-        } else {
-          magnifierImageElement.style.backgroundPositionX = `${
-            -posX * bgPosXMultiplier
-          }px`;
-          magnifierImageElement.style.backgroundPositionY = `${
-            -posY * bgPosYMultiplier
-          }px`;
-          magnifierTransformX = offsetWidth * 0.5;
-          magnifierTransformY = -(offsetHeight * 0.51);
-        }
-        magnifierElement.style.transform = `translate(${
-          event.offsetX - magnifierTransformX
-        }px, ${event.offsetY + magnifierTransformY}px)`;
-        magnifierImageElement.style.transform = `translate(${
-          -event.offsetX + offsetWidth / 2 - 1
-        }px, ${-event.offsetY + offsetHeight / 2}px)`;
+      this.options.type;
+    this.currentImageEl.addEventListener("mousemove", (event: MouseEvent) => {
+      let filter = "opacity(0.8)";
+      if (currentImageEl.dataset.blur || this.options.blur)
+        filter += " blur(2px)";
+      if (currentImageEl.dataset.grayscale || this.options.grayscale)
+        filter += " grayscale(100%)";
+      currentImageEl.style.filter = filter;
+      magnifierElement.style.opacity = "1";
+      if (type === "outside" && zoomedElement)
+        zoomedElement.style.opacity = "1";
+      const posX = event.offsetX
+        ? event.offsetX
+        : event.pageX - currentImageEl.offsetLeft;
+      const posY = event.offsetY
+        ? event.offsetY
+        : event.pageY - currentImageEl.offsetTop;
+      let magnifierTransformX: number, magnifierTransformY: number;
+      const bgPosXMultiplier = 3;
+      const bgPosYMultiplier = 3;
+      if (type === "outside" && zoomedElement) {
+        zoomedElement.style.backgroundPositionX = `${
+          -posX * bgPosXMultiplier
+        }px`;
+        zoomedElement.style.backgroundPositionY = `${
+          -posY * bgPosYMultiplier
+        }px`;
+        magnifierTransformX = offsetWidth * 0.5;
+        magnifierTransformY = offsetHeight * -0.52;
+      } else {
+        magnifierImageElement.style.backgroundPositionX = `${
+          -posX * bgPosXMultiplier
+        }px`;
+        magnifierImageElement.style.backgroundPositionY = `${
+          -posY * bgPosYMultiplier
+        }px`;
+        magnifierTransformX = offsetWidth * 0.5;
+        magnifierTransformY = -(offsetHeight * 0.51);
       }
-    );
-    HoverZoom.currentImageEl.addEventListener("mouseout", () => {
+      magnifierElement.style.transform = `translate(${
+        event.offsetX - magnifierTransformX
+      }px, ${event.offsetY + magnifierTransformY}px)`;
+      magnifierImageElement.style.transform = `translate(${
+        -event.offsetX + offsetWidth / 2 - 1
+      }px, ${-event.offsetY + offsetHeight / 2}px)`;
+    });
+    this.currentImageEl.addEventListener("mouseout", () => {
       currentImageEl.style.filter = "";
       magnifierElement.style.opacity = "0";
       if (type === "outside" && zoomedElement)
         zoomedElement.style.opacity = "0";
     });
   }
-
-  (window as any).HoverZoom = HoverZoom;
-})();
+}
