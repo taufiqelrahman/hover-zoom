@@ -3,7 +3,7 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main  # ganti sesuai branch yang mau auto deploy
+      - master
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # atau versi yang kamu pakai
+          node-version: '22' 
           cache: 'npm'
 
       - name: Install dependencies
