@@ -37,10 +37,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taufiqelrahman/hover-zoom.git"
+    "url": "git+https://github.com/taufiqelrahman/hoverzoom-js.git"
   },
   "bugs": {
-    "url": "https://github.com/taufiqelrahman/hover-zoom/issues"
+    "url": "https://github.com/taufiqelrahman/hoverzoom-js/issues"
   },
   "homepage": "https://demo-hoverzoom.taufiqelrahman.com",
   "publishConfig": {
