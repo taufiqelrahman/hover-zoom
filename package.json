@@ -1,12 +1,11 @@
 {
   "name": "hoverzoom-js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A lightweight hover-to-zoom image magnifier plugin for web",
   "main": "dist/hoverzoom.umd.js",
   "module": "dist/hoverzoom.esm.js",
   "browser": "dist/hoverzoonpm im.umd.js",
   "author": "Taufiq",
-
   "license": "MIT",
   "scripts": {
     "scss": "node-sass src/style.scss dist/style.css",
