@@ -1,24 +1,47 @@
 {
-  "name": "hoverzoom",
+  "name": "hoverzoom-js",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Taufiq El Rahman",
+  "description": "A lightweight hover-to-zoom image magnifier plugin for web",
+  "main": "dist/hoverzoom.umd.js",
+  "module": "dist/hoverzoom.esm.js",
+  "browser": "dist/hoverzoonpm im.umd.js",
+  "author": "Taufiq",
+
   "license": "MIT",
   "scripts": {
-    "scss": "node-sass style.scss style.css",
-    "lint": "node_modules/.bin/eslint --fix .",
-    "build": "yarn lint && yarn scss && cp src/index.js dist/index.js && cp style.css dist/style.css",
-    "demo": "cp index.js demo/index.js && cp style.css demo/style.css"
+    "scss": "node-sass src/style.scss dist/style.css",
+    "lint": "eslint --fix src",
+    "build": "yarn lint && yarn scss && rollup -c",
+    "demo": "cp dist/hoverzoom.umd.js demo/hoverzoom.umd.js && cp dist/style.css demo/style.css"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "rollup": "^4.46.2"
   },
   "dependencies": {
     "node-sass": "^9.0.0"
-  }
+  },
+  "keywords": [
+    "hover",
+    "zoom",
+    "magnifier",
+    "image",
+    "vanilla-js",
+    "plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taufiqelrahman/hover-zoom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/taufiqelrahman/hover-zoom/issues"
+  },
+  "homepage": "https://demo-hoverzoom.taufiqelrahman.com"
 }

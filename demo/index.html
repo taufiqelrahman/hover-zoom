@@ -1,224 +1,190 @@
 <html>
-  <head>
-    <title>Hover Zoom - Lightweight Non-JQuery Plugin</title>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui"
-    />
-    <meta name="robots" content="noimageindex" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
-    />
-    <link rel="stylesheet" href="style.min.css" />
-  </head>
 
-  <body>
-    <section class="section">
-      <div class="container">
-        <h1 class="title is-spaced">
-          HoverZoom - Lightweight Non-JQuery Plugin
-        </h1>
-        <p class="subtitle">
-          HoverZoom is a plugin built on javascript which allows users to zoom
-          in images as they hover. This plugin doesn't depend on any other
-          libraries and this doesn't use JQuery. This would cut a significant
-          download time as this is built 100% using plain vanilla javascript.
-        </p>
-        <div class="content">
-          <h4 class="title is-4">Features</h4>
-          <ul>
-            <li>Lightweight, no additional javascript dependency.</li>
-            <li>Easy installation.</li>
-            <li>Can be used anywhere.</li>
-            <li>Zoomed in image can be inside or outside the lens.</li>
-            <li>Filter options for original image.</li>
-          </ul>
-        </div>
-        <div class="content">
-          <h4 class="title is-4">Browser Compatibility</h4>
-          <ul>
-            <li>Chrome</li>
-            <li>Firefox</li>
-            <li>Safari</li>
-            <li>Opera</li>
-          </ul>
-        </div>
-        <div class="content">
-          <h4 class="title is-4">Getting Started</h4>
-          <p>Include stylesheet in head tag:</p>
-          <article class="message is-info">
-            <div class="message-body">
-              &lt;head&gt;
-              <br />...<br />
-              &lt;link rel="stylesheet" href="hoverzoom.css"&gt;
-              <br />...<br />
-              &lt;/head&gt;
-            </div>
-          </article>
-          <p>and script in body tag:</p>
-          <article class="message is-info">
-            <div class="message-body">
-              &lt;head&gt;
-              <br />...<br />
-              &lt;script src="hoverzoom.js"&gt;&lt;/script&gt;
-              <br />...<br />
-              &lt;/head&gt;
-            </div>
-          </article>
-          <p>Add "hoverzoom" classnames to your image:</p>
-          <article class="message is-info">
-            <div class="message-body">
-              &lt;div class="hoverzoom"&gt;
-              <br />
-              &lt;img class="hoverzoom-image"
-              <br />
-              src="required" <br />
-              data-large-image="optional" <br />
-              data-blur="optional" <br />
-              data-grayscale="optional" <br />
-              data-type="optional" <br />
-              data-position="optional" <br />&gt;
-              <br />
-              &lt;/div&gt;
-            </div>
-          </article>
-          <p>Add 1 line of javascript to initialize:</p>
-          <article class="message is-info">
-            <div class="message-body">
-              &lt;script&gt;<br />
-              new HoverZoom.init();
-              <br />
-              &lt;/script&gt;
-            </div>
-          </article>
-        </div>
-        <div class="content">
-          <h4 class="title is-4">Options</h4>
-          <article class="message is-info">
-            <div class="message-body">
-              &lt;script&gt;<br />
-              new HoverZoom.init({
-              <br />
-              position: 'left', // left / bottom (if type: outside)
-              <br />
-              type: 'outside', // outside / inside
-              <br />
-              blur: true, // adds blur filter
-              <br />
-              grayscale: true, //adds grayscale filter
-              <br />
-              });
-              <br />
-              &lt;/script&gt;
-            </div>
-          </article>
-        </div>
-        <h4 class="title is-4">Demo</h4>
-        <div class="content">
-          <div class="columns">
-            <div class="column is-half">
-              <h5 class="title is-6">[type=inside]</h5>
-              <div class="hoverzoom">
-                <img
-                  width="500"
-                  class="hoverzoom-image"
-                  src="/images/karim-manjra-SUo9HNE48Kg-unsplash-small.jpg"
-                  data-large-image="/images/karim-manjra-SUo9HNE48Kg-unsplash.jpg"
-                  data-type="inside"
-                />
-              </div>
-            </div>
+<head>
+  <title>Hover Zoom - Lightweight Non-JQuery Plugin</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui" />
+  <meta name="robots" content="noimageindex" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
+  <link rel="stylesheet" href="style.min.css" />
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-spaced">
+        HoverZoom - Lightweight Non-JQuery Plugin
+      </h1>
+      <p class="subtitle">
+        HoverZoom is a plugin built on javascript which allows users to zoom
+        in images as they hover. This plugin doesn't depend on any other
+        libraries and this doesn't use JQuery. This would cut a significant
+        download time as this is built 100% using plain vanilla javascript.
+      </p>
+      <div class="content">
+        <h4 class="title is-4">Features</h4>
+        <ul>
+          <li>Lightweight, no additional javascript dependency.</li>
+          <li>Easy installation.</li>
+          <li>Can be used anywhere.</li>
+          <li>Zoomed in image can be inside or outside the lens.</li>
+          <li>Filter options for original image.</li>
+        </ul>
+      </div>
+      <div class="content">
+        <h4 class="title is-4">Browser Compatibility</h4>
+        <ul>
+          <li>Chrome</li>
+          <li>Firefox</li>
+          <li>Safari</li>
+          <li>Opera</li>
+        </ul>
+      </div>
+      <div class="content">
+        <h4 class="title is-4">Getting Started</h4>
+        <p>Include stylesheet in head tag:</p>
+        <article class="message is-info">
+          <div class="message-body">
+            &lt;head&gt;
+            <br />...<br />
+            &lt;link rel="stylesheet" href="hoverzoom.css"&gt;
+            <br />...<br />
+            &lt;/head&gt;
           </div>
-        </div>
-        <div class="content">
-          <div class="columns">
-            <div class="column is-half">
-              <h5 class="title is-6">[type=inside blur=true]</h5>
-              <div class="hoverzoom">
-                <img
-                  width="500"
-                  class="hoverzoom-image"
-                  src="/images/karim-manjra-SUo9HNE48Kg-unsplash-small.jpg"
-                  data-large-image="/images/karim-manjra-SUo9HNE48Kg-unsplash.jpg"
-                  data-type="inside"
-                  data-blur="true"
-                />
-              </div>
-            </div>
-            <div class="column is-half">
-              <h5 class="title is-6">[type=inside grayscale=true]</h5>
-              <div class="hoverzoom">
-                <img
-                  width="500"
-                  class="hoverzoom-image"
-                  src="/images/karim-manjra-qTIJkyeOXY8-unsplash-small.jpg"
-                  data-large-image="/images/karim-manjra-qTIJkyeOXY8-unsplash.jpg"
-                  data-type="inside"
-                  data-grayscale="true"
-                />
-              </div>
-            </div>
+        </article>
+        <p>and script in body tag:</p>
+        <article class="message is-info">
+          <div class="message-body">
+            &lt;head&gt;
+            <br />...<br />
+            &lt;script src="hoverzoom.js"&gt;&lt;/script&gt;
+            <br />...<br />
+            &lt;/head&gt;
           </div>
-        </div>
-        <div class="content">
-          <h5 class="title is-6">[type=outside position=left]</h5>
-          <div class="hoverzoom">
-            <img
-              class="hoverzoom-image"
-              src="/images/phil-hearing-0QKDO0pQSmY-unsplash-small.jpg"
-              data-large-image="/images/phil-hearing-0QKDO0pQSmY-unsplash.jpg"
-              data-type="outside"
-              style="max-width: 300px"
-            />
+        </article>
+        <p>Add "hoverzoom" classnames to your image:</p>
+        <article class="message is-info">
+          <div class="message-body">
+            &lt;div class="hoverzoom"&gt;
+            <br />
+            &lt;img class="hoverzoom-image"
+            <br />
+            src="required" <br />
+            data-large-image="optional" <br />
+            data-blur="optional" <br />
+            data-grayscale="optional" <br />
+            data-type="optional" <br />
+            data-position="optional" <br />&gt;
+            <br />
+            &lt;/div&gt;
           </div>
-        </div>
-        <div class="content">
-          <div class="columns">
-            <div class="column is-half">
-              <h5 class="title is-6">[type=outside position=bottom]</h5>
-              <div class="hoverzoom">
-                <img
-                  width="500"
-                  class="hoverzoom-image"
-                  src="/images/karim-manjra-qTIJkyeOXY8-unsplash-small.jpg"
-                  data-large-image="/images/karim-manjra-qTIJkyeOXY8-unsplash.jpg"
-                  data-type="outside"
-                  data-position="bottom"
-                />
-              </div>
-            </div>
-            <div class="column is-half">
-              <h5 class="title is-6">
-                [type=outside position=bottom blur=true]
-              </h5>
-              <div class="hoverzoom">
-                <img
-                  width="500"
-                  class="hoverzoom-image"
-                  src="/images/karim-manjra-SUo9HNE48Kg-unsplash-small.jpg"
-                  data-large-image="/images/karim-manjra-SUo9HNE48Kg-unsplash.jpg"
-                  data-type="outside"
-                  data-position="bottom"
-                  data-blur="true"
-                />
-              </div>
+        </article>
+        <p>Add 1 line of javascript to initialize:</p>
+        <article class="message is-info">
+          <div class="message-body">
+            &lt;script&gt;<br />
+            new HoverZoom.init();
+            <br />
+            &lt;/script&gt;
+          </div>
+        </article>
+      </div>
+      <div class="content">
+        <h4 class="title is-4">Options</h4>
+        <article class="message is-info">
+          <div class="message-body">
+            &lt;script&gt;<br />
+            new HoverZoom.init({
+            <br />
+            position: 'left', // left / bottom (if type: outside)
+            <br />
+            type: 'outside', // outside / inside
+            <br />
+            blur: true, // adds blur filter
+            <br />
+            grayscale: true, //adds grayscale filter
+            <br />
+            });
+            <br />
+            &lt;/script&gt;
+          </div>
+        </article>
+      </div>
+      <h4 class="title is-4">Demo</h4>
+      <div class="content">
+        <div class="columns">
+          <div class="column is-half">
+            <h5 class="title is-6">[type=inside]</h5>
+            <div class="hoverzoom">
+              <img width="500" class="hoverzoom-image" src="/images/karim-manjra-SUo9HNE48Kg-unsplash-small.jpg"
+                data-large-image="/images/karim-manjra-SUo9HNE48Kg-unsplash.jpg" data-type="inside" />
             </div>
           </div>
         </div>
       </div>
-    </section>
+      <div class="content">
+        <div class="columns">
+          <div class="column is-half">
+            <h5 class="title is-6">[type=inside blur=true]</h5>
+            <div class="hoverzoom">
+              <img width="500" class="hoverzoom-image" src="/images/karim-manjra-SUo9HNE48Kg-unsplash-small.jpg"
+                data-large-image="/images/karim-manjra-SUo9HNE48Kg-unsplash.jpg" data-type="inside" data-blur="true" />
+            </div>
+          </div>
+          <div class="column is-half">
+            <h5 class="title is-6">[type=inside grayscale=true]</h5>
+            <div class="hoverzoom">
+              <img width="500" class="hoverzoom-image" src="/images/karim-manjra-qTIJkyeOXY8-unsplash-small.jpg"
+                data-large-image="/images/karim-manjra-qTIJkyeOXY8-unsplash.jpg" data-type="inside"
+                data-grayscale="true" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <h5 class="title is-6">[type=outside position=left]</h5>
+        <div class="hoverzoom">
+          <img class="hoverzoom-image" src="/images/phil-hearing-0QKDO0pQSmY-unsplash-small.jpg"
+            data-large-image="/images/phil-hearing-0QKDO0pQSmY-unsplash.jpg" data-type="outside"
+            style="max-width: 300px" />
+        </div>
+      </div>
+      <div class="content">
+        <div class="columns">
+          <div class="column is-half">
+            <h5 class="title is-6">[type=outside position=bottom]</h5>
+            <div class="hoverzoom">
+              <img width="500" class="hoverzoom-image" src="/images/karim-manjra-qTIJkyeOXY8-unsplash-small.jpg"
+                data-large-image="/images/karim-manjra-qTIJkyeOXY8-unsplash.jpg" data-type="outside"
+                data-position="bottom" />
+            </div>
+          </div>
+          <div class="column is-half">
+            <h5 class="title is-6">
+              [type=outside position=bottom blur=true]
+            </h5>
+            <div class="hoverzoom">
+              <img width="500" class="hoverzoom-image" src="/images/karim-manjra-SUo9HNE48Kg-unsplash-small.jpg"
+                data-large-image="/images/karim-manjra-SUo9HNE48Kg-unsplash.jpg" data-type="outside"
+                data-position="bottom" data-blur="true" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="index.min.js"></script>
-    <script>
-      new HoverZoom.init({
-        position: "left",
-        // type: 'outside',
-        // type: 'inside',
-        // blur: true,
-        // grayscale: true,
-      });
-    </script>
-  </body>
+  <script src="hoverzoom.umd.js"></script>
+  <script>
+    const hz = new HoverZoom({
+      position: "left",
+      // type: 'outside',
+      // type: 'inside',
+      // blur: true,
+      // grayscale: true,
+    });
+    hz.init()
+  </script>
+</body>
+
 </html>
