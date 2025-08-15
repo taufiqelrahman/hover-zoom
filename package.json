@@ -11,7 +11,8 @@
     "scss": "node-sass src/style.scss dist/style.css",
     "lint": "eslint --fix src",
     "build": "yarn lint && yarn scss && rollup -c",
-    "demo": "cp dist/hoverzoom.umd.js demo/hoverzoom.umd.js && cp dist/style.css demo/style.css"
+    "demo": "cp dist/hoverzoom.umd.js demo/hoverzoom.umd.js && cp dist/style.css demo/style.css",
+    "publish": "npm run build && npm publish"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.6",
