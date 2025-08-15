@@ -1,0 +1,34 @@
+## [1.2.0] - 2025-08-16
+### Added
+- ESM and UMD build outputs for broader compatibility
+- Improved demo page and documentation
+- Enhanced initialization to support more flexible usage
+
+### Changed
+- Refactored code for better modularity and maintainability
+
+## [1.1.2] - 2025-08-16
+### Fixed
+- Minor bug fixes and code cleanup
+
+## [1.1.1] - 2025-08-16
+### Changed
+- Improved TypeScript type safety and fixed build warnings
+- Updated documentation and usage examples
+
+## [1.1.0] - 2025-08-16
+### Changed
+- Refactored codebase for better readability and maintainability
+- Improved initialization to support DOMContentLoaded event
+- Enhanced modularity and code structure for easier extension
+
+
+## [1.0.0] - 2025-08-16
+### Added
+- Initial release of HoverZoom plugin (v1.0.0)
+- Pure JavaScript image zoom on hover, no dependencies
+- Supports both 'inside' and 'outside' zoom types
+- Configurable options: position, type, blur, grayscale, large image source
+- Works with multiple images on a page
+- Modern, modular, and readable codebase
+- Browser compatibility: Chrome, Firefox, Safari, Opera

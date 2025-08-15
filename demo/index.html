@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui" />
   <meta name="robots" content="noimageindex" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
-  <link rel="stylesheet" href="style.min.css" />
+  <link rel="stylesheet" href="hoverzoom.min.css" />
 </head>
 
 <body>
@@ -24,7 +24,7 @@
       <div class="content">
         <h4 class="title is-4">Features</h4>
         <ul>
-          <li>Lightweight, no additional javascript dependency.</li>
+          <li>Lightweight, no additional javascript dependency. (5.4kB minified)</li>
           <li>Easy installation.</li>
           <li>Can be used anywhere.</li>
           <li>Zoomed in image can be inside or outside the lens.</li>
@@ -47,7 +47,7 @@
           <div class="message-body">
             &lt;head&gt;
             <br />...<br />
-            &lt;link rel="stylesheet" href="hoverzoom.css"&gt;
+            &lt;link rel="stylesheet" href="hoverzoom.min.css"&gt;
             <br />...<br />
             &lt;/head&gt;
           </div>
@@ -57,7 +57,7 @@
           <div class="message-body">
             &lt;head&gt;
             <br />...<br />
-            &lt;script src="hoverzoom.js"&gt;&lt;/script&gt;
+            &lt;script src="hoverzoom.umd.min.js"&gt;&lt;/script&gt;
             <br />...<br />
             &lt;/head&gt;
           </div>
@@ -83,7 +83,13 @@
         <article class="message is-info">
           <div class="message-body">
             &lt;script&gt;<br />
-            new HoverZoom.init();
+            const hoverZoom = new HoverZoom({
+            <br /> position: 'left', // 'left' | 'bottom' (only for type: 'outside')
+            <br /> type: 'outside', // 'outside' | 'inside'
+            <br /> blur: true, // apply blur filter
+            <br /> grayscale: true, // apply grayscale filter
+            <br />});
+            <br />hoverZoom.init();
             <br />
             &lt;/script&gt;
           </div>
@@ -93,8 +99,7 @@
         <h4 class="title is-4">Options</h4>
         <article class="message is-info">
           <div class="message-body">
-            &lt;script&gt;<br />
-            new HoverZoom.init({
+            {
             <br />
             position: 'left', // left / bottom (if type: outside)
             <br />
@@ -104,11 +109,39 @@
             <br />
             grayscale: true, //adds grayscale filter
             <br />
-            });
+            }
             <br />
-            &lt;/script&gt;
           </div>
         </article>
+      </div>
+      <!-- Import / Module Usage -->
+      <div class="content">
+        <h4 class="title is-4">Module Import</h4>
+        <article class="message is-info">
+          <div class="message-body">
+            // ES Module
+            <br />
+            import HoverZoom from 'hoverzoom-js';
+            <br />
+            import 'hoverzoom-js/dist/style.css';<br />
+            <br />
+            const hoverZoom = new HoverZoom({<br />
+            position: 'left',<br />
+            type: 'outside',<br />
+            blur: true,<br />
+            grayscale: true,<br />
+            });<br />
+            hoverZoom.init();<br />
+            <br />
+            // CommonJS<br />
+            const HoverZoom = require('hoverzoom-js');<br />
+            require('hoverzoom-js/dist/style.css');<br />
+            <br />
+            const hoverZoom = new HoverZoom();<br />
+            hoverZoom.init();
+          </div>
+        </article>
+
       </div>
       <h4 class="title is-4">Demo</h4>
       <div class="content">
@@ -174,7 +207,7 @@
     </div>
   </section>
 
-  <script src="hoverzoom.umd.js"></script>
+  <script src="hoverzoom.umd.min.js"></script>
   <script>
     const hz = new HoverZoom({
       position: "left",

@@ -1,68 +1,150 @@
-# HoverZoom - Lightweight Non-JQuery Plugin
+# HoverZoom – Lightweight Non-JQuery Plugin
 
-HoverZoom is a plugin built on javascript which allows users to zoom in images as they hover. This plugin doesn't depend on any other libraries and this doesn't use JQuery. This would cut a significant download time as this is built 100% using plain vanilla javascript.
+**HoverZoom** is a lightweight plugin built on **vanilla JavaScript** that allows users to zoom images on hover.  
+No dependencies, no jQuery, fully optimized for minimal download size and fast performance.
 
-<a href="https://demo-hoverzoom.taufiqelrahman.com/" target="_blank"><strong>Demo and documentation</strong></a>
+[**Demo & Documentation**](https://hoverzoom-js.vercel.app)
+
+___
 
 ## Features
 
-* Lightweight, no additional javascript dependency.
-* Easy installation.
-* Can be used anywhere.
-* Zoomed in image can be inside or outside the lens.
-* Filter options for original image.
+- Lightweight, no additional javascript dependency. (5.4kB minified)
+- No additional JavaScript dependency.
+- Easy to install and use anywhere.
+- Zoomed image can appear **inside** or **outside** the lens.
+- Optional filters for the original image: blur, grayscale.
+
+___
 
 ## Browser Compatibility
 
-Currently tested in:
+Tested in:
 
-* Chrome Version 76.0.3809.132
-* Firefox Version 69.0.1
-* Safari Version 12.1.1
-* Opera Version 63.0.3368.94
+- Chrome 76+
+- Firefox 69+
+- Safari 12+
+- Opera 63+
+
+___
 
 ## Getting Started
 
-Include stylesheet in head tag:
-```
+### 1. CDN / Script Tag
+
+Include the stylesheet in your `<head>`:
+
+```html
 <link rel="stylesheet" href="hoverzoom.css">
 ```
 
-and script in body tag:
-```
+Include the script before closing `<body>`:
+
+```html
 <script src="hoverzoom.js"></script>
 ```
 
-Add "hoverzoom" classnames to your image:
-```
+Add the required HTML structure:
+
+```html
 <div class="hoverzoom">
   <img class="hoverzoom-image"
-    src="required"
-    data-large-image="optional"
-    data-blur="optional"
-    data-grayscale="optional"
-    data-type="optional"
-    data-position="optional"
+       src="required.jpg"
+       data-large-image="optional-large.jpg"
+       data-blur="true"
+       data-grayscale="true"
+       data-type="outside"
+       data-position="left"
   >
 </div>
 ```
 
-Add 1 line of javascript to initialize:
-```
+Initialize with default or custom options:
+
+```html
+<link rel="stylesheet" href="node_modules/hoverzoom-js/dist/hoverzoom.min.css">
+<script src="node_modules/hoverzoom-js/dist/hoverzoom.umd.min.js"></script>
 <script>
-  new HoverZoom.init();
+  const hoverZoom = new HoverZoom({
+    position: 'left', // 'left' | 'bottom' (only for type: 'outside')
+    type: 'outside',  // 'outside' | 'inside'
+    blur: true,       // apply blur filter
+    grayscale: true,  // apply grayscale filter
+  });
+  hoverZoom.init();
 </script>
 ```
+
+___
+
+### 2. Using HoverZoom with NPM / Module Bundlers
+
+Install via NPM:
+
+```bash
+npm install hoverzoom-js
+```
+
+Import and initialize in your JavaScript/TypeScript project:
+
+```js
+// ES Module
+
+// import JS
+import HoverZoom from 'hoverzoom-js';
+// import CSS
+import 'hoverzoom-js/dist/style.css';
+
+const hoverZoom = new HoverZoom({
+  position: 'left',
+  type: 'outside',
+  blur: true,
+  grayscale: true,
+});
+
+// Initialize all elements with 'hoverzoom' class
+hoverZoom.init();
+
+// CommonJS
+const HoverZoom = require('hoverzoom-js');
+require('hoverzoom-js/dist/style.css')
+
+const hoverZoom = new HoverZoom();
+hoverZoom.init();
+```
+
+___
 
 ## Options
 
+| Option     | Type      | Default   | Description                                        |
+|------------|-----------|-----------|---------------------------------------------------|
+| position   | string    | "left"    | Position of the zoomed image (left or bottom)    |
+| type       | string    | "outside" | Magnifier type (inside or outside)               |
+| blur       | boolean   | false     | Apply blur filter to the original image          |
+| grayscale  | boolean   | false     | Apply grayscale filter to the original image    |
+
+
+___
+
+## HTML Structure
+
+```html
+<div class="hoverzoom">
+  <img class="hoverzoom-image"
+       src="small.jpg"
+       data-large-image="large.jpg"
+       data-type="outside"
+       data-position="left"
+       data-blur="true"
+       data-grayscale="false"
+  >
+</div>
 ```
-<script>
-  new HoverZoom.init({
-    position: 'left', // left / bottom (if type: outside)
-    type: 'outside', // outside / inside
-    blur: true, // adds blur filter
-    grayscale: true, //adds grayscale filter
-  });
-</script>
-```
+
+
+___
+
+### License
+
+MIT

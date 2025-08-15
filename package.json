@@ -1,28 +1,31 @@
 {
   "name": "hoverzoom-js",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A lightweight hover-to-zoom image magnifier plugin for web",
-  "main": "dist/hoverzoom.umd.js",
-  "module": "dist/hoverzoom.esm.js",
-  "browser": "dist/hoverzoom.umd.js",
+  "main": "dist/hoverzoom.umd.min.js",
+  "module": "dist/hoverzoom.esm.min.js",
+  "browser": "dist/hoverzoom.umd.min.js",
   "author": "Taufiq",
   "license": "MIT",
   "scripts": {
-    "scss": "node-sass src/style.scss dist/style.css",
+    "scss": "node-sass src/style.scss dist/hoverzoom.css",
     "lint": "eslint --fix src",
     "build": "yarn lint && yarn scss && rollup -c",
-    "demo": "cp dist/hoverzoom.umd.js demo/hoverzoom.umd.js && cp dist/style.css demo/style.css"
+    "minify": "cleancss -o dist/hoverzoom.min.css dist/hoverzoom.css && terser dist/hoverzoom.umd.js -o dist/hoverzoom.umd.min.js --compress --mangle && terser dist/hoverzoom.esm.js -o dist/hoverzoom.esm.min.js --compress --mangle",
+    "demo": "cp dist/hoverzoom.umd.min.js demo/hoverzoom.umd.min.js && cp dist/hoverzoom.min.css demo/hoverzoom.min.css"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
+    "clean-css-cli": "^5.6.3",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "rollup": "^4.46.2"
+    "rollup": "^4.46.2",
+    "terser": "^5.43.1"
   },
   "dependencies": {
     "node-sass": "^9.0.0"
@@ -45,5 +48,10 @@
   "homepage": "https://demo-hoverzoom.taufiqelrahman.com",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "files": [
+    "dist/hoverzoom.umd.min.js",
+    "dist/hoverzoom.esm.min.js",
+    "dist/style.min.css"
+  ]
 }
