@@ -37,10 +37,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taufiqelrahman/hover-zoom.git"
+    "url": "https://github.com/taufiqelrahman/hover-zoom.git"
   },
   "bugs": {
     "url": "https://github.com/taufiqelrahman/hover-zoom/issues"
   },
-  "homepage": "https://demo-hoverzoom.taufiqelrahman.com"
+  "homepage": "https://demo-hoverzoom.taufiqelrahman.com",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
