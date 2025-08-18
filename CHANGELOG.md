@@ -1,3 +1,10 @@
+## [1.3.0] - 2025-08-18
+### Changed
+- Refactored internal logic to eliminate unnecessary mutable state
+- Removed unused parameters (`iteration`, `container`) from internal methods
+- All DOM operations now use local variables and parentNode references
+- Codebase is now cleaner and more maintainable
+
 ## [1.2.0] - 2025-08-16
 ### Added
 - ESM and UMD build outputs for broader compatibility
