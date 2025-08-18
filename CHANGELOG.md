@@ -1,3 +1,12 @@
+## [1.4.0] - 2025-08-19
+### Added
+- Improved accessibility for keyboard users
+- Added more robust error handling for missing or invalid image elements
+- Enhanced documentation and usage examples
+
+### Changed
+- Further code cleanup and minor performance optimizations
+
 ## [1.3.0] - 2025-08-18
 ### Changed
 - Refactored internal logic to eliminate unnecessary mutable state
