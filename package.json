@@ -45,7 +45,7 @@
   "bugs": {
     "url": "https://github.com/taufiqelrahman/hoverzoom-js/issues"
   },
-  "homepage": "https://demo-hoverzoom.taufiqelrahman.com",
+  "homepage": "https://hoverzoom-js.vercel.app",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
