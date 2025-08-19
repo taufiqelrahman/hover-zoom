@@ -21,20 +21,20 @@
           zoomedImage: 'hoverzoom-zoom',
           magnifier: 'hoverzoom-magnifier',
           magnifierRound: 'hoverzoom-magnifier--round',
-          magnifierImage: 'hoverzoom-magnifier--image'
+          magnifierImage: 'hoverzoom-magnifier--image',
         },
         position: 'left',
         type: 'outside',
         largeImage: '',
         blur: false,
-        grayscale: false
+        grayscale: false,
       };
       this.options = { ...defaults, ...options };
       this.isSafari =
         /constructor/i.test(window.HTMLElement) ||
         ((p) => p.toString() === '[object SafariRemoteNotification]')(
           !window['safari'] ||
-          (typeof safari !== 'undefined' && window.safari.pushNotification)
+            (typeof safari !== 'undefined' && window.safari.pushNotification)
         );
     }
 
@@ -42,13 +42,11 @@
       const imgContainer = document.getElementsByClassName(
         this.options.classNames.container
       );
-      window.onload = () => {
-        for (let i = 0; i < imgContainer.length; i++) {
-          this.iteration = i;
-          this.currentContainer = imgContainer[i];
-          this.applyHoverZoom();
-        }
-      };
+      for (let i = 0; i < imgContainer.length; i++) {
+        this.iteration = i;
+        this.currentContainer = imgContainer[i];
+        this.applyHoverZoom();
+      }
     }
 
     applyHoverZoom() {
@@ -79,7 +77,9 @@
       );
       this.zoomedElement.style.setProperty(
         'background-size',
-        `${this.currentImageEl.offsetWidth * 4}px ${this.currentImageEl.offsetHeight * 4}px`
+        `${this.currentImageEl.offsetWidth * 4}px ${
+        this.currentImageEl.offsetHeight * 4
+      }px`
       );
 
       const position =
@@ -103,11 +103,11 @@
       this.magnifierImageElement.setAttribute('src', this.options.largeImage);
       this.magnifierImageElement.style.setProperty(
         'height',
-        this.currentImageEl.offsetHeight
+        `${this.currentImageEl.offsetHeight}px`
       );
       this.magnifierImageElement.style.setProperty(
         'width',
-        this.currentImageEl.offsetWidth
+        `${this.currentImageEl.offsetWidth}px`
       );
       this.magnifierElement.appendChild(this.magnifierImageElement);
 
@@ -116,25 +116,25 @@
       const magnifierWidth =
         (this.magnifierElement.offsetHeight * this.currentImageEl.offsetWidth) /
         this.currentImageEl.offsetHeight;
-      this.magnifierElement.style.setProperty('width', magnifierWidth);
+      this.magnifierElement.style.setProperty('width', `${magnifierWidth}px`);
     }
 
     attachZoomedImage() {
       this.zoomedElement.style.setProperty(
         'height',
-        this.currentImageEl.offsetHeight
+        `${this.currentImageEl.offsetHeight}px`
       );
       this.zoomedElement.style.setProperty(
         'width',
-        this.currentImageEl.offsetWidth
+        `${this.currentImageEl.offsetWidth}px`
       );
 
       const position =
         this.currentImageEl.dataset.position || this.options.position;
       if (position === 'left') {
-        this.zoomedElement.style.setProperty('margin-left', 6);
+        this.zoomedElement.style.setProperty('margin-left', '6px');
       } else {
-        this.zoomedElement.style.setProperty('margin-top', 6);
+        this.zoomedElement.style.setProperty('margin-top', '6px');
       }
       this.currentContainer.appendChild(this.zoomedElement);
     }
@@ -145,10 +145,7 @@
       this.magnifierElement = document.createElement('DIV');
       this.magnifierElement.classList.add(magnifier);
       this.magnifierElement.classList.add(magnifierRound);
-      this.magnifierElement.setAttribute(
-        'id',
-        `${magnifier}-${this.iteration}`
-      );
+      this.magnifierElement.setAttribute('id', `${magnifier}-${this.iteration}`);
 
       this.magnifierImageElement = document.createElement('DIV');
       this.magnifierImageElement.classList.add(magnifierImage);
@@ -162,15 +159,17 @@
       );
       this.magnifierImageElement.style.setProperty(
         'background-size',
-        `${this.currentImageEl.offsetWidth * 4}px ${this.currentImageEl.offsetHeight * 4}px`
+        `${this.currentImageEl.offsetWidth * 4}px ${
+        this.currentImageEl.offsetHeight * 4
+      }px`
       );
       this.magnifierImageElement.style.setProperty(
         'height',
-        this.currentImageEl.offsetHeight
+        `${this.currentImageEl.offsetHeight}px`
       );
       this.magnifierImageElement.style.setProperty(
         'width',
-        this.currentImageEl.offsetWidth
+        `${this.currentImageEl.offsetWidth}px`
       );
       this.magnifierElement.appendChild(this.magnifierImageElement);
 
@@ -225,8 +224,8 @@
             'background-position-y',
             `${-posY * bgPosYMultiplier}px`
           );
-           magnifierTransformX = offsetWidth * 0.5;
-           magnifierTransformY = offsetHeight * -0.52;
+          magnifierTransformX = offsetWidth * 0.5;
+          magnifierTransformY = offsetHeight * -0.52;
         } else {
           magnifierImageElement.style.setProperty(
             'background-position-x',
@@ -236,8 +235,8 @@
             'background-position-y',
             `${-posY * bgPosYMultiplier}px`
           );
-           magnifierTransformX = offsetWidth * 0.5;
-           magnifierTransformY = -(offsetHeight * 0.51);
+          magnifierTransformX = offsetWidth * 0.5;
+          magnifierTransformY = -(offsetHeight * 0.51);
         }
 
         magnifierElement.style.setProperty(
