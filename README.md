@@ -55,7 +55,7 @@ Add the required HTML structure:
     data-blur="true"
     data-grayscale="true"
     data-type="outside"
-    data-position="left"
+    data-position="right"
   />
 </div>
 ```
@@ -67,7 +67,7 @@ Initialize with default or custom options:
 <script src="node_modules/hoverzoom-js/dist/hoverzoom.umd.min.js"></script>
 <script>
   const hoverZoom = new HoverZoom({
-    position: "left", // 'left' | 'bottom' (only for type: 'outside')
+    position: "right", // 'right' | 'bottom' (only for type: 'outside')
     type: "outside", // 'outside' | 'inside'
     blur: true, // apply blur filter
     grayscale: true, // apply grayscale filter
@@ -97,7 +97,7 @@ import HoverZoom from "hoverzoom-js";
 import "hoverzoom-js/style.css";
 
 const hoverZoom = new HoverZoom({
-  position: "left",
+  position: "right",
   type: "outside",
   blur: true,
   grayscale: true,
@@ -118,12 +118,12 @@ hoverZoom.init();
 
 ## Options
 
-| Option    | Type    | Default   | Description                                   |
-| --------- | ------- | --------- | --------------------------------------------- |
-| position  | string  | "left"    | Position of the zoomed image (left or bottom) |
-| type      | string  | "outside" | Magnifier type (inside or outside)            |
-| blur      | boolean | false     | Apply blur filter to the original image       |
-| grayscale | boolean | false     | Apply grayscale filter to the original image  |
+| Option    | Type    | Default   | Description                                    |
+| --------- | ------- | --------- | ---------------------------------------------- |
+| position  | string  | "right"   | Position of the zoomed image (right or bottom) |
+| type      | string  | "outside" | Magnifier type (inside or outside)             |
+| blur      | boolean | false     | Apply blur filter to the original image        |
+| grayscale | boolean | false     | Apply grayscale filter to the original image   |
 
 ---
 
@@ -136,7 +136,7 @@ hoverZoom.init();
     src="small.jpg"
     data-large-image="large.jpg"
     data-type="outside"
-    data-position="left"
+    data-position="right"
     data-blur="true"
     data-grayscale="false"
   />

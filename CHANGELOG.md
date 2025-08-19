@@ -1,3 +1,9 @@
+## [1.5.1] - 2025-08-19
+
+### Fixed
+
+- Fixed bug position from left to right
+
 ## [1.5.0] - 2025-08-19
 
 ### Fixed

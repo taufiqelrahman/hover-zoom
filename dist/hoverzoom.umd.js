@@ -23,7 +23,7 @@
           magnifierRound: 'hoverzoom-magnifier--round',
           magnifierImage: 'hoverzoom-magnifier--image',
         },
-        position: 'left',
+        position: 'right',
         type: 'outside',
         largeImage: '',
         blur: false,
@@ -86,7 +86,7 @@
         this.currentImageEl.dataset.position || this.options.position;
       this.currentContainer.style.setProperty(
         'flex-direction',
-        position === 'left' ? 'row' : 'column'
+        position === 'right' ? 'row' : 'column'
       );
       this.attachZoomedImage();
 
@@ -131,7 +131,7 @@
 
       const position =
         this.currentImageEl.dataset.position || this.options.position;
-      if (position === 'left') {
+      if (position === 'right') {
         this.zoomedElement.style.setProperty('margin-left', '6px');
       } else {
         this.zoomedElement.style.setProperty('margin-top', '6px');
