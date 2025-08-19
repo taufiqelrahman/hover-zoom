@@ -60,6 +60,7 @@
   "files": [
     "dist/hoverzoom.umd.min.js",
     "dist/hoverzoom.esm.min.js",
-    "dist/hoverzoom.min.css"
+    "dist/hoverzoom.min.css",
+    "dist/hoverzoom.d.ts"
   ]
 }

@@ -1,3 +1,9 @@
+## [1.6.1] - 2025-08-19
+
+### Fixed
+
+- Included typing (d.ts) for typescript use
+
 ## [1.6.0] - 2025-08-19
 
 ### Added
