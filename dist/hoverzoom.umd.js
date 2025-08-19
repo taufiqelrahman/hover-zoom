@@ -44,153 +44,158 @@
       );
       window.onload = () => {
         for (let i = 0; i < imgContainer.length; i++) {
-          this.applyHoverZoom(i, imgContainer[i]);
+          this.iteration = i;
+          this.currentContainer = imgContainer[i];
+          this.applyHoverZoom();
         }
       };
     }
 
-    applyHoverZoom(iteration, container) {
+    applyHoverZoom() {
       const { image } = this.options.classNames;
-      const currentImageEl = container.querySelector(`.${image}`);
-      currentImageEl.setAttribute('id', `${image}-${iteration}`);
-      const largeImage = currentImageEl.dataset.largeImage
-        ? currentImageEl.dataset.largeImage
-        : currentImageEl.src;
+      this.currentImageEl = this.currentContainer.querySelector(`.${image}`);
+      this.currentImageEl.setAttribute('id', `${image}-${this.iteration}`);
+      this.options.largeImage = this.currentImageEl.dataset.largeImage
+        ? this.currentImageEl.dataset.largeImage
+        : this.currentImageEl.src;
 
-      const type = currentImageEl.dataset.type || this.options.type;
+      const type = this.currentImageEl.dataset.type || this.options.type;
       if (type === 'outside') {
-        this.outsideZoom(iteration, currentImageEl, largeImage);
+        this.outsideZoom();
       } else {
-        this.insideZoom(iteration, currentImageEl, largeImage);
+        this.insideZoom();
       }
-      this.addMouseListener(iteration, currentImageEl);
+      this.addMouseListener();
     }
 
-    outsideZoom(iteration, currentImageEl, largeImage) {
+    outsideZoom() {
       const { zoomedImage, magnifier, magnifierImage } = this.options.classNames;
-      const zoomedElement = document.createElement('DIV');
-      zoomedElement.classList.add(zoomedImage);
-      zoomedElement.setAttribute('id', `${zoomedImage}-${iteration}`);
-      zoomedElement.style.setProperty(
+      this.zoomedElement = document.createElement('DIV');
+      this.zoomedElement.classList.add(zoomedImage);
+      this.zoomedElement.setAttribute('id', `${zoomedImage}-${this.iteration}`);
+      this.zoomedElement.style.setProperty(
         'background-image',
-        `url('${largeImage}')`
+        `url('${this.options.largeImage}')`
       );
-      zoomedElement.style.setProperty(
+      this.zoomedElement.style.setProperty(
         'background-size',
-        `${currentImageEl.offsetWidth * 4}px ${currentImageEl.offsetHeight * 4}px`
+        `${this.currentImageEl.offsetWidth * 4}px ${this.currentImageEl.offsetHeight * 4}px`
       );
 
       const position =
-        currentImageEl.dataset.position || this.options.position;
-      currentImageEl.parentNode.style.setProperty(
+        this.currentImageEl.dataset.position || this.options.position;
+      this.currentContainer.style.setProperty(
         'flex-direction',
         position === 'left' ? 'row' : 'column'
       );
-      this.attachZoomedImage(currentImageEl, zoomedElement);
+      this.attachZoomedImage();
 
-      const magnifierElement = document.createElement('DIV');
-      magnifierElement.classList.add(magnifier);
-      magnifierElement.setAttribute('id', `${magnifier}-${iteration}`);
+      this.magnifierElement = document.createElement('DIV');
+      this.magnifierElement.classList.add(magnifier);
+      this.magnifierElement.setAttribute('id', `${magnifier}-${this.iteration}`);
 
-      const magnifierImageElement = document.createElement('IMG');
-      magnifierImageElement.classList.add(magnifierImage);
-      magnifierImageElement.setAttribute(
+      this.magnifierImageElement = document.createElement('IMG');
+      this.magnifierImageElement.classList.add(magnifierImage);
+      this.magnifierImageElement.setAttribute(
         'id',
-        `${magnifierImage}-${iteration}`
+        `${magnifierImage}-${this.iteration}`
       );
-      magnifierImageElement.setAttribute('src', largeImage);
-      magnifierImageElement.style.setProperty(
+      this.magnifierImageElement.setAttribute('src', this.options.largeImage);
+      this.magnifierImageElement.style.setProperty(
         'height',
-        currentImageEl.offsetHeight
+        this.currentImageEl.offsetHeight
       );
-      magnifierImageElement.style.setProperty(
+      this.magnifierImageElement.style.setProperty(
         'width',
-        currentImageEl.offsetWidth
+        this.currentImageEl.offsetWidth
       );
-      magnifierElement.appendChild(magnifierImageElement);
+      this.magnifierElement.appendChild(this.magnifierImageElement);
 
-    currentImageEl.parentNode.appendChild(magnifierElement);
+      this.currentContainer.appendChild(this.magnifierElement);
 
       const magnifierWidth =
-        (magnifierElement.offsetHeight * currentImageEl.offsetWidth) /
-        currentImageEl.offsetHeight;
-      magnifierElement.style.setProperty('width', magnifierWidth);
+        (this.magnifierElement.offsetHeight * this.currentImageEl.offsetWidth) /
+        this.currentImageEl.offsetHeight;
+      this.magnifierElement.style.setProperty('width', magnifierWidth);
     }
 
-    attachZoomedImage(currentImageEl, zoomedElement) {
-      zoomedElement.style.setProperty(
+    attachZoomedImage() {
+      this.zoomedElement.style.setProperty(
         'height',
-        currentImageEl.offsetHeight
+        this.currentImageEl.offsetHeight
       );
-      zoomedElement.style.setProperty(
+      this.zoomedElement.style.setProperty(
         'width',
-        currentImageEl.offsetWidth
+        this.currentImageEl.offsetWidth
       );
 
       const position =
-        currentImageEl.dataset.position || this.options.position;
+        this.currentImageEl.dataset.position || this.options.position;
       if (position === 'left') {
-        zoomedElement.style.setProperty('margin-left', 6);
+        this.zoomedElement.style.setProperty('margin-left', 6);
       } else {
-        zoomedElement.style.setProperty('margin-top', 6);
+        this.zoomedElement.style.setProperty('margin-top', 6);
       }
-      currentImageEl.parentNode.appendChild(zoomedElement);
+      this.currentContainer.appendChild(this.zoomedElement);
     }
 
-    insideZoom(iteration, currentImageEl, largeImage) {
+    insideZoom() {
       const { magnifier, magnifierImage, magnifierRound } =
         this.options.classNames;
-      const magnifierElement = document.createElement('DIV');
-      magnifierElement.classList.add(magnifier);
-      magnifierElement.classList.add(magnifierRound);
-      magnifierElement.setAttribute(
+      this.magnifierElement = document.createElement('DIV');
+      this.magnifierElement.classList.add(magnifier);
+      this.magnifierElement.classList.add(magnifierRound);
+      this.magnifierElement.setAttribute(
         'id',
-        `${magnifier}-${iteration}`
+        `${magnifier}-${this.iteration}`
       );
 
-      const magnifierImageElement = document.createElement('DIV');
-      magnifierImageElement.classList.add(magnifierImage);
-      magnifierImageElement.setAttribute(
+      this.magnifierImageElement = document.createElement('DIV');
+      this.magnifierImageElement.classList.add(magnifierImage);
+      this.magnifierImageElement.setAttribute(
         'id',
-        `${magnifierImage}-${iteration}`
+        `${magnifierImage}-${this.iteration}`
       );
-      magnifierImageElement.style.setProperty(
+      this.magnifierImageElement.style.setProperty(
         'background-image',
-        `url('${largeImage}')`
+        `url('${this.options.largeImage}')`
       );
-      magnifierImageElement.style.setProperty(
+      this.magnifierImageElement.style.setProperty(
         'background-size',
-        `${currentImageEl.offsetWidth * 4}px ${currentImageEl.offsetHeight * 4}px`
+        `${this.currentImageEl.offsetWidth * 4}px ${this.currentImageEl.offsetHeight * 4}px`
       );
-      magnifierImageElement.style.setProperty(
+      this.magnifierImageElement.style.setProperty(
         'height',
-        currentImageEl.offsetHeight
+        this.currentImageEl.offsetHeight
       );
-      magnifierImageElement.style.setProperty(
+      this.magnifierImageElement.style.setProperty(
         'width',
-        currentImageEl.offsetWidth
+        this.currentImageEl.offsetWidth
       );
-      magnifierElement.appendChild(magnifierImageElement);
+      this.magnifierElement.appendChild(this.magnifierImageElement);
 
-    currentImageEl.parentNode.appendChild(magnifierElement);
+      this.currentContainer.appendChild(this.magnifierElement);
     }
 
-    addMouseListener(iteration, currentImageEl) {
-      const { magnifier, magnifierImage, zoomedImage } =
+    addMouseListener() {
+      const { image, magnifier, magnifierImage, zoomedImage } =
         this.options.classNames;
       const magnifierImageElement = document.getElementById(
-        `${magnifierImage}-${iteration}`
+        `${magnifierImage}-${this.iteration}`
       );
       const magnifierElement = document.getElementById(
-        `${magnifier}-${iteration}`
+        `${magnifier}-${this.iteration}`
       );
       const { offsetHeight, offsetWidth } = magnifierElement;
       const zoomedElement = document.getElementById(
-        `${zoomedImage}-${iteration}`
+        `${zoomedImage}-${this.iteration}`
+      );
+      const currentImageEl = document.getElementById(
+        `${image}-${this.iteration}`
       );
       const type = currentImageEl.dataset.type || this.options.type;
 
-      currentImageEl.addEventListener('mousemove', (event) => {
+      this.currentImageEl.addEventListener('mousemove', (event) => {
         let filter = 'opacity(0.8)';
         if (currentImageEl.dataset.blur || this.options.blur)
           filter += ' blur(2px)';
@@ -249,7 +254,7 @@
         );
       });
 
-      currentImageEl.addEventListener('mouseout', () => {
+      this.currentImageEl.addEventListener('mouseout', () => {
         currentImageEl.style.setProperty('filter', 'unset');
         magnifierElement.style.setProperty('opacity', 0);
         if (type === 'outside') zoomedElement.style.setProperty('opacity', 0);
