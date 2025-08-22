@@ -18,7 +18,7 @@
   "scripts": {
     "scss": "sass src/style.scss dist/hoverzoom.css",
     "lint": "eslint --fix src",
-    "build": "yarn lint && yarn scss && rollup -c && cp src/hoverzoom.d.ts dist/hoverzoom.d.ts",
+    "build": "yarn lint && yarn scss && rollup -c && cp src/HoverZoom.d.ts dist/hoverzoom.d.ts",
     "minify": "cleancss -o dist/hoverzoom.min.css dist/hoverzoom.css && terser dist/hoverzoom.umd.js -o dist/hoverzoom.umd.min.js --compress --mangle && terser dist/hoverzoom.esm.js -o dist/hoverzoom.esm.min.js --compress --mangle",
     "demo": "cp dist/hoverzoom.umd.min.js demo/hoverzoom.umd.min.js && cp dist/hoverzoom.min.css demo/hoverzoom.min.css"
   },
