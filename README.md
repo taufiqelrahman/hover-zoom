@@ -1,9 +1,11 @@
 # HoverZoom – Lightweight Non-JQuery Plugin
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
-[![Node Version](https://img.shields.io/badge/node-22.x-brightgreen)](https://nodejs.org/)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/taufiqelrahman/hoverzoom-js/ci.yml?branch=main)](https://github.com/taufiqelrahman/hoverzoom-js/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/taufiqelrahman/hoverzoom-js/deploy-vercel.yml?branch=master)](https://github.com/taufiqelrahman/hoverzoom-js/actions)
 [![Good First Issue](https://img.shields.io/badge/good%20first%20issue-friendly-brightgreen)](https://github.com/taufiqelrahman/hoverzoom-js/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+![npm](https://img.shields.io/npm/v/hoverzoom-js)
+![npm](https://img.shields.io/npm/dt/hoverzoom-js)
+![license](https://img.shields.io/npm/l/hoverzoom-js)
+[![Node Version](https://img.shields.io/badge/node-22.x-brightgreen)](https://nodejs.org/)
 
 **HoverZoom** is a lightweight plugin built on **vanilla JavaScript** that allows users to zoom images on hover.  
 No dependencies, no jQuery, fully optimized for minimal download size and fast performance.
