@@ -28,7 +28,7 @@ No dependencies, no jQuery, fully optimized for minimal download size and fast p
 
 Tested in:
 
-- Chrome 76+
+- Chrome 139+
 - Firefox 69+
 - Safari 12+
 - Opera 63+
